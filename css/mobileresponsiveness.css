@@ -1,0 +1,51 @@
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .dashboard-body {
+    padding-top: 70px;
+  }
+
+  .welcome-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .welcome-content h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-content {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .availability-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-section,
+  .stats-section,
+  .quick-actions-section {
+    padding: 0 1rem;
+  }
+}

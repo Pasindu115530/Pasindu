@@ -1,0 +1,91 @@
+/* Dashboard Specific Styles */
+.dashboard-body {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+/* Welcome Section */
+.welcome-section   {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  margin: 5rem auto 2rem;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.welcome h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome p {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.time {
+  color: #95a5a6;
+  font-size: 1rem;
+}
+
+.useravatar {
+  font-size: 4rem;
+  color: var(--primary-color);
+}
+
+/* Dashboard Content */
+.usercontent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.content-card.full-width {
+  grid-column: 1 / -1;
+  margin: 20px 0 40px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-header h3 {
+  color: var(--light-color);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-all {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.view-all:hover {
+  color: var(--light-color);
+}

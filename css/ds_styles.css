@@ -1,0 +1,481 @@
+/* Global Styles */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --gray-color: #95a5a6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f2e6e6;
+    background-image: url('https://media.istockphoto.com/id/1177469070/photo/blur-background-of-empty-lobby-in-hospital.jpg?s=612x612&w=0&k=20&c=algQaMJ4txurKAYXp37OBjybiIVEkBCNVdMTpo68Uw0=') ;
+     background-repeat: no-repeat;
+    color: #333;
+    line-height: 1.6;
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    margin: 0; 
+    padding: 0;
+    height: 100vh; 
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: rgba(14, 17, 68, 0.916);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color:  #2980b9;;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #1a252f;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: transparent;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color:  var(--dark-color);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: medium;
+    transition: color 0.4s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.nav-links a.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.login-btn {
+    background-color:rgba(14, 17, 68, 0.916);
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    background-color: #2980b9;
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--dark-color);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+    align-items: left;
+}
+ins {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: rgba(0, 0, 0, 0.621);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-us {
+    padding: 50px 30px;
+    background-color: #f9f9f995;
+    background-image: url('https://media.istockphoto.com/id/2149838473/photo/business-meeting-blurred-background-and-people-in-office-for-teamwork-collaboration-and.jpg?s=612x612&w=0&k=20&c=HIpFm-ZVNOgtaIS4ql974iU_nhqriMhfp22zs6dFNcs=');
+    background-repeat:no-repeat ;
+     background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    margin: 0; 
+    padding: 0;
+    text-align: center;
+    height: 60vh;
+    line-height: 10vh;
+}
+
+.about-us h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #313030;
+    line-height: 1.6;
+}
+
+.quote-mark {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #1b1818; 
+}
+
+/* Features Section */
+.features {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2rem;
+    line-height: 10vh;
+    margin-bottom: 3rem;
+    color: rgba(6, 7, 33, 0.668);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: transparent;
+
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: var(--gray-color);
+}
+
+/* Auth Pages */
+.auth-container {
+    display: flex;
+    min-height: calc(100vh - 150px);
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.auth-form {
+    flex: 1;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f8ff;
+}
+
+.auth-image img {
+    width: 100%;
+   height: 100%;
+   object-fit: cover; 
+   
+}
+
+.auth-form h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--dark-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input {
+    margin-right: 0.5rem;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+}
+
+.auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.form-help {
+    font-size: 0.8rem;
+    color: var(--gray-color);
+    margin-top: 0.5rem;
+}
+
+
+.footer {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  padding: 40px 20px 20px;
+  font-family: sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+  gap: 2rem;
+}
+
+.footer-section {
+  flex: 1 1 250px;
+}
+
+.footer-section h3 {
+  margin-bottom: 10px;
+  color: #ffffff;
+ 
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 1;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  color: #fff;
+}
+
+.social-icons a {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.social-icons img {
+  width: 50px;
+  height: 50px;
+  filter: invert(100%);
+  margin: 0 15px;
+ 
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  border-top: 2px solid #333;
+  padding-top: 20px;
+  font-size: 1rem;
+  color: #999;
+}
+
+
+@media screen and (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        right: 0;
+        top: 70px;
+        background-color: white;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+    }
+
+    .nav-links.active {
+        transform: translateX(0);
+    }
+
+    .nav-links li {
+        margin: 1rem 0;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .hero, .auth-container {
+        flex-direction: column;
+    }
+
+    .hero-content, .auth-form {
+        padding-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .auth-image {
+        display: none;
+    }
+}
+
+/* Animation for burger menu */
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.toggle .line2 {
+    opacity: 0;
+}
+
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
