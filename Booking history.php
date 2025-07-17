@@ -258,10 +258,11 @@ $conn->close();
             <div class="logo">Faculty Resources Reservation</div>
             <ul class="nav-links" id="nav-links">
                 <div class="nav-indicator" id="nav-indicator"></div>
-                <li><a href="index.html" class="nav-item active" data-section="home">Home</a></li>
+                <li><a href="index.html" class="nav-item " data-section="home">Home</a></li>
                 <li><a href="dashboard.html" class="nav-item" data-section="dashboard">Dashboard</a></li>
-                <li><a href="resources.html" class="nav-item" data-section="resources">Resources</a></li>
+               <li><a href="reservationPage.html" class="nav-item" data-section="resources">Reservation</a></li>
                 <li><a href="#" class="nav-item active"  data-section="booking">My Booking</a></li>
+                <li><a href="start.php" class="login-btn">Sign Out</a></li>
            
             </ul>
             <div class="burger" id="burger">

@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute the statement
      if ($stmt->execute()) {
         // Redirect to booking history page after successful submission
-        header("Location: booking history.html");
+        header("Location: booking history.php");
         exit(); // Make sure to exit after header redirect
     } else {
         echo "Error: " . $stmt->error;
