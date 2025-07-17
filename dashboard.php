@@ -1,3 +1,79 @@
+<?php
+// Start session at the VERY TOP (before any output)
+session_start();
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = ""; // Consider using environment variables for credentials
+$dbname = "lakshani";
+
+// Create connection with error handling
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if user is logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$email = $_SESSION['email'];
+
+// Function to safely fetch count
+function getStatusCount($conn, $status) {
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM bookings WHERE status = ?");
+    if (!$stmt) {
+        // Handle prepare error
+        error_log("Prepare failed: " . $conn->error);
+        return 0;
+    }
+    $stmt->bind_param("s", $status);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    return $row['count'] ?? 0; // Return 0 if count not found
+}
+
+function getNameFromEmail($conn, $email) {
+    $stmt = $conn->prepare("SELECT full_name FROM user WHERE email = ?");
+    if (!$stmt) {
+        error_log("Prepare failed: " . $conn->error);
+        return null;
+    }
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    return $row['full_name'] ?? null;
+}
+
+// Get counts for each status
+$pendingCount = getStatusCount($conn, 'Pending');
+$approvedCount = getStatusCount($conn, 'Approved');
+$rejectedCount = getStatusCount($conn, 'Rejected');
+$getname = getNameFromEmail($conn, $email);
+
+// Get total count (using prepared statement for consistency)
+$totalCount = 0;
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM bookings");
+if ($stmt) {
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $totalCount = $row['total'] ?? 0;
+    $stmt->close();
+}
+
+// Close connection
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +116,7 @@
         <!-- Welcome Section -->
         <section class="welcome-section">
             <div class="welcome">
-                <h1>Welcome Back, Dr. John Smith</h1>
+                <h1>Welcome Back,<?= $getname ?></h1>
                 <p>Faculty of Computing - Computer Science Department</p>
                 <div class="time" id="currentTime"></div>
             </div>
@@ -57,12 +133,10 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>12</h3>
+                        <h3><?= $approvedCount ?></h3>
                         <p>Active Bookings</p>
                     </div>
-                    <div class="stat-trend up">
-                        <i class="fas fa-arrow-up"></i> 8%
-                    </div>
+                    
                 </div>
 
                 <div class="stat-card dashboard-stable">
@@ -70,12 +144,10 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>5</h3>
+                        <h3><?= $pendingCount ?></</h3>
                         <p>Pending Approvals</p>
                     </div>
-                    <div class="stat-trend down">
-                        <i class="fas fa-arrow-down"></i> 3%
-                    </div>
+                  
                 </div>
 
                 <div class="stat-card dashboard-stable">
@@ -83,12 +155,10 @@
                         <i class="fas fa-history"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>48</h3>
+                        <h3><?= $totalCount ?></h3>
                         <p>Total Reservations</p>
                     </div>
-                    <div class="stat-trend up">
-                        <i class="fas fa-arrow-up"></i> 12%
-                    </div>
+                    
                 </div>
 
                 <div class="stat-card dashboard-stable">
@@ -110,25 +180,20 @@
         <section class="quick-actions-section dashboard-stable">
             <h2>Quick Actions</h2>
             <div class="actions-grid">
-                <div class="action-card" onclick="location.href='reservation.html'">
+                <div class="action-card" onclick="location.href='reservationPage.html'">
                     <i class="fas fa-plus-circle"></i>
                     <h3>New Booking</h3>
                     <p>Reserve a resource</p>
                 </div>
-                <div class="action-card" onclick="location.href='availability.html'">
+                <div class="action-card" onclick="location.href='Check Availability _Halls.html'">
                     <i class="fas fa-search"></i>
                     <h3>Check Availability</h3>
                     <p>View available resources</p>
                 </div>
-                <div class="action-card" onclick="location.href='mybooking.html'">
+                <div class="action-card" onclick="location.href='Booking history.php'">
                     <i class="fas fa-list"></i>
                     <h3>My Bookings</h3>
                     <p>Manage reservations</p>
-                </div>
-                <div class="action-card" onclick="location.href='reports.html'">
-                    <i class="fas fa-chart-bar"></i>
-                    <h3>View Reports</h3>
-                    <p>Usage analytics</p>
                 </div>
             </div>
         </section>

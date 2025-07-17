@@ -65,7 +65,7 @@ $conn->close();
                 <a href="user.html" class="profile">
                     <button class="your-profile">Your profile</button>
                 </a>
-                <button class="logout-btn">Logout</button>
+                <a href="start.php"><button class="logout-btn">Logout</button></a>
             </div>
         </div>
     </header>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +21,7 @@
             --light-color: #FDFDFD;
             --success-color: #00B894;
             --warning-color: #FDCB6E;
+            --primary-hover: #5a4dcc;
         }
         
         body {
@@ -132,111 +135,54 @@
         }
         
         .availability-container button:hover {
-            background-color: var(--primary-hover);
+            background: linear-gradient(45deg, var(--primary-hover), #00b7e6);
         }
         
         button:active {
             transform: scale(0.98);
         }
         
-        
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .results-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
         }
         
-        @media (max-width: 480px) {
+        .available {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .not-available {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .conflict-list {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .conflict-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: rgba(255, 118, 117, 0.1);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
             .availability-container {
-                padding: 1.5rem;
+                padding: 20px;
+                margin: 10px;
             }
             
-            h2 {
-                font-size: 1.5rem;
+            .availability-container input, 
+            .availability-container select {
+                width: 85%;
             }
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .footer {
-            flex-shrink: 0;
-            background: var(--dark-color);
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: auto;
-            width: 100%;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-section h3 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section ul li a:hover {
-            color: var(--secondary-color);
-        }
-
-        .footer-section p {
-            color: #ddd;
-            margin: 5px 0;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-icons img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            transition: transform 0.3s;
-        }
-
-        .social-icons img:hover {
-            transform: scale(1.1);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-            font-size: 14px;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -248,12 +194,11 @@
             <div class="logo">Faculty Resources Reservation</div>
             <ul class="nav-links" id="nav-links">
                 <div class="nav-indicator" id="nav-indicator"></div>
-                <li><a href="#" class="nav-item active" data-section="home">Home</a></li>
+                <li><a href="index.html" class="nav-item " data-section="home">Home</a></li>
                 <li><a href="dashboard.html" class="nav-item" data-section="dashboard">Dashboard</a></li>
-                <li><a href="resources.html" class="nav-item" data-section="resources">Resources</a></li>
-                <li><a href="mybooking.html" class="nav-item" data-section="booking">My Booking</a></li>
-                <li><a href="reports.html" class="nav-item" data-section="reports">Reports</a></li>
-                <li><a href="dslogin.html" class="login-btn">Login</a></li>
+                <li><a href="Booking history.php" class="nav-item" data-section="booking">My Booking</a></li>
+            
+                <li><a href="start.php" class="login-btn">Sign Out</a></li>
             </ul>
             <div class="burger" id="burger">
                 <div class="line1"></div>
@@ -263,44 +208,78 @@
         </nav>
     </header> 
     <main>
-    <div class="availability-container">
-        <h2>Check Resource Availability</h2>
-        <form id="availabilityForm">
-            <label for="faculty">Select Faculty:</label>
-            <select id="faculty" name="faculty" required>
-                <option value="">-- Choose Faculty --</option>
-                <option value="management">Management Studies and Commerce</option>
-                <option value="applied">Applied Science</option>
-                <option value="art">Humanities and Social Sciences</option>
-            </select>
+        <div class="availability-container">
+            <h2>Check Resource Availability</h2>
+            <form id="availabilityForm" method="POST" action="check.php">
+    <label for="faculty">Select Faculty:</label>
+    <select id="faculty" name="faculty" required>
+        <option value="">-- Choose Faculty --</option>
+        <option value="management">Management Studies and Commerce</option>
+        <option value="applied">Applied Science</option>
+        <option value="art">Humanities and Social Sciences</option>
+    </select>
 
-            <label for="resource">Select Place:</label>
-            <select id="resource" name="resource" required disabled>
-                <option value="">-- Choose a Resource --</option>
-            </select>
+    <label for="resource">Select Place:</label>
+    <select id="resource" name="resource" required disabled>
+        <option value="">-- Choose a Resource --</option>
+    </select>
 
-            <label for="date">Select Date:</label>
-            <input type="date" id="date" required min="2025-01-01">
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" name="date" required min="<?php echo date('Y-m-d'); ?>">
 
-            <label for="start-time">Start Time:</label>
-            <input type="time" id="start-time" required>
-            
-            <label for="end-time">End Time:</label>
-            <input type="time" id="end-time" required>
+    <label for="start-time">Start Time:</label>
+    <input type="time" id="start-time" name="start_time" required>
+    
+    <label for="end-time">End Time:</label>
+    <input type="time" id="end-time" name="end_time" required>
 
-            <button type="submit">Check Availability</button>
-        </form>
+    <button type="submit">Check Availability</button>
+</form>
+        
+            <div class="results-container">
+        <h2>Availability Results</h2>
+        
+        <?php if (empty($conflicts)): ?>
+            <p class="available">✅ The hall is available for your selected time slot!</p>
+        <?php else: ?>
+            <p class="not-available">❌ The hall is not available during your selected time.</p>
+        <?php endif; ?>
+        
+        <?php if ($hasPreviousBooking): ?>
+            <div class="previous-booking">
+                <p>📅 You have booked this hall before on <?= $lastBooking['date'] ?> 
+                from <?= $lastBooking['start_time'] ?> to <?= $lastBooking['end_time'] ?></p>
+            </div>
+        <?php else: ?>
+            <p>ℹ️ You have not booked this hall before.</p>
+        <?php endif; ?>
+        
+        <?php if (!empty($conflicts)): ?>
+            <div class="conflict-list">
+                <h4>Existing bookings during this time:</h4>
+                <?php foreach ($conflicts as $conflict): ?>
+                    <div class="conflict-item">
+                        <p><strong>Date:</strong> <?= $conflict['date'] ?></p>
+                        <p><strong>Time:</strong> <?= $conflict['start_time'] ?> to <?= $conflict['end_time'] ?></p>
+                        <p><strong>Booked by:</strong> <?= $conflict['faculty'] ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        
+        <a href="javascript:history.back()" class="back-btn">Back to Form</a>
     </div>
+
+        </div>
     </main>
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
                 <h3>Faculty Resources</h3>
                 <ul>
-                    <li><a href="#">Hall Booking</a></li>
-                    <li><a href="#">Equipment Checkout</a></li>
-                    <li><a href="#">Schedule Calendar</a></li>
-                    <li><a href="#">Support</a></li>
+                    <li><a href="reservationPage.html">Hall Booking</a></li>
+                    <li><a href="equipments.html">Equipment Checkout</a></li>
+                    <li><a href="help.html  ">Support</a></li>
                 </ul>
             </div>
 
@@ -325,55 +304,156 @@
             <p>&copy; 2025 Faculty Resources Reservation System. All rights reserved.</p>
         </div>
     </footer>
-<script>
-const facultyPlaces = {
-    management: [
-        { value: "fayol_hall", label: "Fayol Hall" },
-        { value: "maslow_hall", label: "Maslow Hall" },
-        { value: "sbm_hall", label: "SBM Hall" },
-        { value: "sbsf_hall", label: "SBSF Hall" },
-        { value: "A11_lecture_hall", label: "A11 Lecture Hall" },
-        { value: "A12_lecture_hall", label: "A12 Lecture Hall" },
-        { value: "A13_lecture_hall", label: "A13 Lecture Hall" }
-    ],
-    applied: [
-        { value: "computer_lab", label: "Computer Lab" },
-        { value: "nfc_3_hall", label: "NFC 3 Hall" },
-        { value: "nfc_4_hall", label: "NFC 4 Hall" },
-        { value: "nfc_6_hall", label: "NFC 6 Hall" }
-    ],
-    art: [
-        { value: "WD101_lecture_hall", label: "WD101 Lecture Hall" },
-        { value: "WD102_lecture_hall", label: "WD102 Lecture Hall" },
-        { value: "WD103_lecture_hall", label: "WD103 Lecture Hall" },
-        { value: "WD204_lecture_hall", label: "WD204 Lecture Hall" },
-        { value: "WD301_lecture_hall", label: "WD301 Lecture Hall" },
-        { value: "wt_exam_hall_no_4", label: "WT Exam Hall No 4" }
-    ]
-};
 
-const facultySelect = document.getElementById('faculty');
-const resourceSelect = document.getElementById('resource');
+    <script>
+        const facultyPlaces = {
+            management: [
+                { value: "fayol_hall", label: "Fayol Hall" },
+                { value: "maslow_hall", label: "Maslow Hall" },
+                { value: "sbm_hall", label: "SBM Hall" },
+                { value: "sbsf_hall", label: "SBSF Hall" },
+                { value: "A11_lecture_hall", label: "A11 Lecture Hall" },
+                { value: "A12_lecture_hall", label: "A12 Lecture Hall" },
+                { value: "A13_lecture_hall", label: "A13 Lecture Hall" }
+            ],
+            applied: [
+                { value: "computer_lab", label: "Computer Lab" },
+                { value: "nfc_3_hall", label: "NFC 3 Hall" },
+                { value: "nfc_4_hall", label: "NFC 4 Hall" },
+                { value: "nfc_6_hall", label: "NFC 6 Hall" }
+            ],
+            art: [
+                { value: "WD101_lecture_hall", label: "WD101 Lecture Hall" },
+                { value: "WD102_lecture_hall", label: "WD102 Lecture Hall" },
+                { value: "WD103_lecture_hall", label: "WD103 Lecture Hall" },
+                { value: "WD204_lecture_hall", label: "WD204 Lecture Hall" },
+                { value: "WD301_lecture_hall", label: "WD301 Lecture Hall" },
+                { value: "wt_exam_hall_no_4", label: "WT Exam Hall No 4" }
+            ]
+        };
 
-facultySelect.addEventListener('change', function() {
-    const faculty = this.value;
-    resourceSelect.innerHTML = '<option value="">-- Choose a Resource --</option>';
-    if (!faculty || !facultyPlaces[faculty]) {
-        resourceSelect.disabled = true;
-        return;
-    }
-    facultyPlaces[faculty].forEach(place => {
-        const option = document.createElement('option');
-        option.value = place.value;
-        option.textContent = place.label;
-        resourceSelect.appendChild(option);
-    });
-    resourceSelect.disabled = false;
-});
-</script>
-<script src="js/navbar.js"></script>
-<script src="js/carousel.js"></script>
-<script src="js/animations.js"></script>
-<script src="js/mobile-nav.js"></script>
+        const facultySelect = document.getElementById('faculty');
+        const resourceSelect = document.getElementById('resource');
+
+        facultySelect.addEventListener('change', function() {
+            const faculty = this.value;
+            resourceSelect.innerHTML = '<option value="">-- Choose a Resource --</option>';
+            if (!faculty || !facultyPlaces[faculty]) {
+                resourceSelect.disabled = true;
+                return;
+            }
+            facultyPlaces[faculty].forEach(place => {
+                const option = document.createElement('option');
+                option.value = place.value;
+                option.textContent = place.label;
+                resourceSelect.appendChild(option);
+            });
+            resourceSelect.disabled = false;
+        });
+
+        // document.getElementById('availabilityForm').addEventListener('submit', async function(e) {
+        //     e.preventDefault();
+            
+        //     // Validate time
+        //     const startTime = document.getElementById('start-time').value;
+        //     const endTime = document.getElementById('end-time').value;
+        //     if (startTime >= endTime) {
+        //         alert('End time must be after start time');
+        //         return;
+        //     }
+            
+        //     // Validate date is in the future
+        //     const selectedDate = new Date(document.getElementById('date').value);
+        //     const today = new Date();
+        //     today.setHours(0, 0, 0, 0);
+        //     if (selectedDate < today) {
+        //         alert('Please select a date in the future');
+        //         return;
+        //     }
+            
+        //     const formData = {
+        //         faculty: document.getElementById('faculty').value,
+        //         resource: document.getElementById('resource').value,
+        //         date: document.getElementById('date').value,
+        //         start_time: document.getElementById('start-time').value,
+        //         end_time: document.getElementById('end-time').value
+        //     };
+            
+        //     try {
+        //         const response = await fetch('Check Availability_Halls.php', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(formData)
+        //         });
+                
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+                
+        //         const data = await response.json();
+                
+        //         // Display results
+        //         const resultsContainer = document.getElementById('resultsContainer');
+        //         const availabilityResult = document.getElementById('availabilityResult');
+        //         const previousBookingInfo = document.getElementById('previousBookingInfo');
+        //         const conflictInfo = document.getElementById('conflictInfo');
+                
+        //         resultsContainer.style.display = 'block';
+                
+        //         if (data.error) {
+        //             availabilityResult.innerHTML = `<p class="not-available">Error: ${data.error}</p>`;
+        //             previousBookingInfo.innerHTML = '';
+        //             conflictInfo.innerHTML = '';
+        //             return;
+        //         }
+                
+        //         if (data.isAvailable) {
+        //             availabilityResult.innerHTML = `<p class="available">✅ The hall is available for your selected time slot!</p>`;
+        //         } else {
+        //             availabilityResult.innerHTML = `<p class="not-available">❌ The hall is not available during your selected time.</p>`;
+        //         }
+                
+        //         if (data.hasPreviousBooking) {
+        //             previousBookingInfo.innerHTML = `
+        //                 <p>📅 You have booked this hall before on ${data.lastBooking.date} 
+        //                 from ${data.lastBooking.start_time} to ${data.lastBooking.end_time}</p>
+        //             `;
+        //         } else {
+        //             previousBookingInfo.innerHTML = '<p>ℹ️ You have not booked this hall before.</p>';
+        //         }
+                
+        //         if (data.conflicts && data.conflicts.length > 0) {
+        //             let conflictsHTML = '<h4>Existing bookings during this time:</h4>';
+        //             data.conflicts.forEach(conflict => {
+        //                 conflictsHTML += `
+        //                     <div class="conflict-item">
+        //                         <p><strong>Date:</strong> ${conflict.date}</p>
+        //                         <p><strong>Time:</strong> ${conflict.start_time} to ${conflict.end_time}</p>
+        //                         <p><strong>Booked by:</strong> ${conflict.faculty}</p>
+        //                     </div>
+        //                 `;
+        //             });
+        //             conflictInfo.innerHTML = conflictsHTML;
+        //         } else {
+        //             conflictInfo.innerHTML = '';
+        //         }
+                
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //         document.getElementById('resultsContainer').style.display = 'block';
+        //         document.getElementById('availabilityResult').innerHTML = `
+        //             <p class="not-available">Error checking availability. Please try again.</p>
+        //         `;
+        //         document.getElementById('previousBookingInfo').innerHTML = '';
+        //         document.getElementById('conflictInfo').innerHTML = '';
+        //     }
+        // });
+    </script>
+    <script src="js/navbar.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/mobile-nav.js"></script>
 </body>
 </html>
