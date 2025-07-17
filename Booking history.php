@@ -1,3 +1,37 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "lakshani";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Process form data when form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Your existing booking submission code...
+}
+
+// Fetch booking history from database
+$bookings = [];
+$sql = "SELECT * FROM bookings ORDER BY date DESC, start_time DESC";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $bookings[] = $row;
+    }
+}
+
+// Close connection
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -224,10 +258,10 @@
             <div class="logo">Faculty Resources Reservation</div>
             <ul class="nav-links" id="nav-links">
                 <div class="nav-indicator" id="nav-indicator"></div>
-                <li><a href="#" class="nav-item active" data-section="home">Home</a></li>
+                <li><a href="index.html" class="nav-item active" data-section="home">Home</a></li>
                 <li><a href="dashboard.html" class="nav-item" data-section="dashboard">Dashboard</a></li>
                 <li><a href="resources.html" class="nav-item" data-section="resources">Resources</a></li>
-                <li><a href="mybooking.html" class="nav-item" data-section="booking">My Booking</a></li>
+                <li><a href="#" class="nav-item active"  data-section="booking">My Booking</a></li>
            
             </ul>
             <div class="burger" id="burger">
@@ -253,47 +287,47 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><span class="badge badge-classroom">WD204 Lecture Hall</span></td>
-                    <td>2025-07-01</td>
-                    <td>10:00 AM - 12:00 PM</td>
-                    <td>Group Study</td>
-                    <td class="status-approved">Approved</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><span class="badge badge-lab">Computer Lab</span></td>
-                    <td>2025-07-05</td>
-                    <td>02:00 PM - 04:00 PM</td>
-                    <td>Project Work</td>
-                    <td class="status-pending">Pending</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><span class="badge badge-audi">Sumangala Auditorium</span></td>
-                    <td>2025-07-10</td>
-                    <td>08:00 AM - 11:00 AM</td>
-                    <td>AGM</td>
-                    <td class="status-rejected">Rejected</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><span class="badge badge-classroom">WD301 Lecture Hall</span></td>
-                    <td>2025-07-12</td>
-                    <td>09:00 AM - 11:00 AM</td>
-                    <td>Exam Preparation</td>
-                    <td class="status-approved">Approved</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><span class="badge badge-lab">Computer Lab</span></td>
-                    <td>2025-07-15</td>
-                    <td>01:00 PM - 03:00 PM</td>
-                    <td>Coding Workshop</td>
-                    <td class="status-pending">Pending</td>
-                </tr>
-            </tbody>
+                    <?php if (!empty($bookings)): ?>
+                        <?php foreach ($bookings as $index => $booking): ?>
+                            <?php 
+                            // Determine badge class based on resource type
+                            $badgeClass = '';
+                            if (strpos(strtolower($booking['resource']), 'lab') !== false) {
+                                $badgeClass = 'badge-lab';
+                            } elseif (strpos(strtolower($booking['resource']), 'auditorium') !== false || strpos(strtolower($booking['resource']), 'audi') !== false) {
+                                $badgeClass = 'badge-audi';
+                            } else {
+                                $badgeClass = 'badge-classroom';
+                            }
+                            
+                            // Determine status class
+                            $statusClass = 'status-pending';
+                            if (isset($booking['status'])) {
+                                $statusText = strtolower($booking['status']);
+                                if ($statusText === 'approved') {
+                                    $statusClass = 'status-approved';
+                                } elseif ($statusText === 'rejected') {
+                                    $statusClass = 'status-rejected';
+                                }
+                            }
+                            ?>
+                            <tr>
+                                <td><?php echo $index + 1; ?></td>
+                                <td><span class="badge <?php echo $badgeClass; ?>"><?php echo htmlspecialchars($booking['resource']); ?></span></td>
+                                <td><?php echo htmlspecialchars($booking['date']); ?></td>
+                                <td><?php echo htmlspecialchars($booking['start_time'] . ' - ' . $booking['end_time']); ?></td>
+                                <td><?php echo htmlspecialchars($booking['purpose']); ?></td>
+                                <td class="<?php echo $statusClass; ?>">
+                                    <?php echo isset($booking['status']) ? htmlspecialchars(ucfirst($booking['status'])) : 'Pending'; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No bookings found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
         </table>
     </div>
     </main>
